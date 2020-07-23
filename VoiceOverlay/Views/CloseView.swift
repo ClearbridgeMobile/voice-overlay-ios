@@ -12,6 +12,8 @@ import UIKit
 @available(iOS 10.0, *)
 public class CloseView: UIView
 {
+    var crossColor: UIColor?
+    
     override public func draw(_ rect: CGRect)
     {
         drawRingFittingInsideView()
@@ -33,7 +35,7 @@ public class CloseView: UIView
         let circleShapeLayer = CAShapeLayer()
         circleShapeLayer.path = circlePath.cgPath
         
-        circleShapeLayer.fillColor = UIColor.clear.cgColor
+        circleShapeLayer.fillColor = UIColor.white.cgColor
         circleShapeLayer.strokeColor = UIColor.white.cgColor
         circleShapeLayer.lineWidth = desiredLineWidth
         
@@ -52,8 +54,8 @@ public class CloseView: UIView
         let leftCrossShapeLayer = CAShapeLayer()
         leftCrossShapeLayer.path = leftCrossPath.cgPath
         
-        leftCrossShapeLayer.fillColor = UIColor.clear.cgColor
-        leftCrossShapeLayer.strokeColor = UIColor.white.cgColor
+        leftCrossShapeLayer.fillColor = crossColor?.cgColor
+        leftCrossShapeLayer.strokeColor = crossColor?.cgColor
         leftCrossShapeLayer.lineWidth = desiredLineWidth
         
         layer.addSublayer(leftCrossShapeLayer)
@@ -67,8 +69,8 @@ public class CloseView: UIView
         let rightCrossShapeLayer = CAShapeLayer()
         rightCrossShapeLayer.path = rightCrossPath.cgPath
         
-        rightCrossShapeLayer.fillColor = UIColor.clear.cgColor
-        rightCrossShapeLayer.strokeColor = UIColor.white.cgColor
+        rightCrossShapeLayer.fillColor = crossColor?.cgColor
+        rightCrossShapeLayer.strokeColor = crossColor?.cgColor
         rightCrossShapeLayer.lineWidth = desiredLineWidth
         
         layer.addSublayer(rightCrossShapeLayer)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-@available(iOS 10.0, *)
+@available(iOS 13.0, *)
 class InputViewController: UIViewController {
   
   var speechController: Recordable?
@@ -24,6 +24,7 @@ class InputViewController: UIViewController {
   let closeView = CloseView()
   let recordingButton = RecordingButton()
   let tryAgainLabel = UILabel()
+  let logo = UIImageView()
   
   var isRecording: Bool = false
   var autoStopTimer: Timer = Timer()
@@ -44,12 +45,20 @@ class InputViewController: UIViewController {
     super.viewDidLoad()
     
     let margins = view.layoutMarginsGuide
-    let subViews = [titleLabel, subtitleLabel, subtitleBulletLabel, closeView, recordingButton, tryAgainLabel]
+    let subViews = [logo, titleLabel, subtitleLabel, subtitleBulletLabel, closeView, recordingButton, tryAgainLabel]
     
     ViewHelpers.translatesAutoresizingMaskIntoConstraintsFalse(for: subViews)
     ViewHelpers.addSubviews(for: subViews, in: view)
     
+    closeView.crossColor = constants.backgroundColor
     view.backgroundColor = constants.backgroundColor
+    
+    logo.image = UIImage(named: "Logo")
+    logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+    logo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    logo.heightAnchor.constraint(equalToConstant: 33).isActive = true
+    logo.widthAnchor.constraint(equalToConstant: 120).isActive = true
+    
     ViewHelpers.setConstraintsForTitleLabel(titleLabel, margins, constants.titleInitial, constants.textColor)
     ViewHelpers.setConstraintsForSubtitleLabel(subtitleLabel, titleLabel, margins, constants.subtitleInitial, constants.textColor)
     ViewHelpers.setConstraintsForSubtitleBulletLabel(subtitleBulletLabel, subtitleLabel, margins, constants.subtitleBulletList, constants.textColor)
