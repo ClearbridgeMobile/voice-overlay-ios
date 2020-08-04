@@ -95,6 +95,7 @@ public typealias RecordableHandler = () -> Recordable
   }
 
   fileprivate func showPermissionScreen(_ view: UIViewController) {
+    permissionViewController.modalPresentationStyle = .fullScreen
     permissionViewController.speechController = recordableHandler()
     permissionViewController.constants = settings.layout.permissionScreen
     DispatchQueue.main.async {
