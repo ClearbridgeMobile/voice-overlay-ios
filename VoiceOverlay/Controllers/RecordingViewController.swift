@@ -20,6 +20,8 @@ class InputViewController: UIViewController {
   
   let titleLabel = UILabel()
   let subtitleLabel = UILabel()
+  let titleContainerView = UIView()
+  let subtitleContainerView = UIView()
   let subtitleBulletLabel = UILabel()
   let closeView = CloseView()
   let recordingButton = RecordingButton()
@@ -45,7 +47,8 @@ class InputViewController: UIViewController {
     super.viewDidLoad()
     
     let margins = view.layoutMarginsGuide
-    let subViews = [logo, titleLabel, subtitleLabel, subtitleBulletLabel, closeView, recordingButton, tryAgainLabel]
+    
+    let subViews = [logo, titleContainerView, subtitleContainerView, subtitleBulletLabel, closeView, recordingButton, tryAgainLabel]
     
     ViewHelpers.translatesAutoresizingMaskIntoConstraintsFalse(for: subViews)
     ViewHelpers.addSubviews(for: subViews, in: view)
@@ -59,8 +62,66 @@ class InputViewController: UIViewController {
     logo.heightAnchor.constraint(equalToConstant: 33).isActive = true
     logo.widthAnchor.constraint(equalToConstant: 120).isActive = true
     
-    ViewHelpers.setConstraintsForTitleLabel(titleLabel, margins, constants.titleInitial, constants.textColor)
-    ViewHelpers.setConstraintsForSubtitleLabel(subtitleLabel, titleLabel, margins, constants.subtitleInitial, constants.textColor)
+
+    // title
+    titleContainerView.backgroundColor = UIColor(named: "labelBackground", in: Bundle(for: type(of: self)), compatibleWith: nil)
+    titleLabel.numberOfLines = 0
+    titleLabel.textAlignment = .left
+    titleLabel.lineBreakMode = .byWordWrapping
+    titleLabel.text = constants.titleInitial
+    titleLabel.textColor = .white
+    titleLabel.font = UIFont(name: "Montserrat-Regular", size: 24)
+    
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    titleContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+    titleContainerView.addSubview(titleLabel)
+
+    NSLayoutConstraint.activate([
+        titleLabel.leadingAnchor.constraint(equalTo: titleContainerView.leadingAnchor, constant: 8),
+        titleLabel.topAnchor.constraint(equalTo: titleContainerView.topAnchor, constant: 6),
+        titleLabel.trailingAnchor.constraint(equalTo: titleContainerView.trailingAnchor, constant: -8),
+        titleLabel.bottomAnchor.constraint(equalTo: titleContainerView.bottomAnchor, constant: -6)
+    ])
+    
+    NSLayoutConstraint.activate([
+        titleContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 19),
+        titleContainerView.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 39),
+        titleContainerView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -19)
+    ])
+    
+    // subtitle
+    subtitleContainerView.backgroundColor = UIColor(named: "labelBackground", in: Bundle(for: type(of: self)), compatibleWith: nil)
+    subtitleLabel.numberOfLines = 0
+    subtitleLabel.textAlignment = .left
+    subtitleLabel.lineBreakMode = .byWordWrapping
+    subtitleLabel.text = constants.subtitleInitial
+    subtitleLabel.textColor = .white
+    subtitleLabel.font = UIFont.systemFont(ofSize: 18)
+
+    subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+    subtitleContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+    subtitleContainerView.addSubview(subtitleLabel)
+    subtitleContainerView.isHidden = true
+
+    NSLayoutConstraint.activate([
+        subtitleLabel.leadingAnchor.constraint(equalTo: subtitleContainerView.leadingAnchor, constant: 8),
+        subtitleLabel.topAnchor.constraint(equalTo: subtitleContainerView.topAnchor, constant: 6),
+        subtitleLabel.trailingAnchor.constraint(equalTo: subtitleContainerView.trailingAnchor, constant: -8),
+        subtitleLabel.bottomAnchor.constraint(equalTo: subtitleContainerView.bottomAnchor, constant: -6)
+    ])
+
+    NSLayoutConstraint.activate([
+        subtitleContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 19),
+        subtitleContainerView.topAnchor.constraint(equalTo: titleContainerView.bottomAnchor, constant: 18),
+        subtitleContainerView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -19)
+    ])
+    
+    
+    
+    //ViewHelpers.setConstraintsForTitleLabel(titleLabel, margins, constants.titleInitial, constants.textColor)
+    //ViewHelpers.setConstraintsForSubtitleLabel(subtitleLabel, titleLabel, margins, constants.subtitleInitial, constants.textColor)
     ViewHelpers.setConstraintsForSubtitleBulletLabel(subtitleBulletLabel, subtitleLabel, margins, constants.subtitleBulletList, constants.textColor)
     ViewHelpers.setConstraintsForCloseView(closeView, margins, backgroundColor: constants.backgroundColor)
     ViewHelpers.setConstraintsForRecordingButton(recordingButton, margins, recordingButtonConstants: constants.inputButtonConstants)
@@ -99,8 +160,8 @@ class InputViewController: UIViewController {
   // This is a fix for labels not always showing the current intrinsic multiline height
   public override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    titleLabel.preferredMaxLayoutWidth = self.view.frame.width - VoiceUIInternalConstants.sideMarginConstant * 2
-    subtitleLabel.preferredMaxLayoutWidth = self.view.frame.width - VoiceUIInternalConstants.sideMarginConstant * 2
+    //titleLabel.preferredMaxLayoutWidth = self.view.frame.width - VoiceUIInternalConstants.sideMarginConstant * 2
+    //subtitleLabel.preferredMaxLayoutWidth = self.view.frame.width - VoiceUIInternalConstants.sideMarginConstant * 2
     self.view.layoutIfNeeded()
   }
   
@@ -161,7 +222,7 @@ class InputViewController: UIViewController {
     
     speechController?.startRecording(textHandler: {[weak self] (text, final, customData) in
       guard let strongSelf = self else { return }
-      
+      strongSelf.subtitleContainerView.isHidden = text.isEmpty
       strongSelf.speechText = text
       strongSelf.customData = customData
       strongSelf.speechError = nil

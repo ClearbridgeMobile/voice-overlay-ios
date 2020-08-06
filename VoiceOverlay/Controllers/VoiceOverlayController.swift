@@ -105,6 +105,7 @@ public typealias RecordableHandler = () -> Recordable
 
   fileprivate func showNoPermissionScreen(_ view: UIViewController) {
     noPermissionViewController.constants = settings.layout.noPermissionScreen
+    noPermissionViewController.modalPresentationStyle = .fullScreen
     DispatchQueue.main.async {
       view.present(self.noPermissionViewController, animated: true)
     }

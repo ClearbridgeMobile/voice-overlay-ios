@@ -42,8 +42,7 @@ class PermissionViewController: UIViewController {
         rejectMicrophoneAccessButton.layer.borderColor = UIColor.white.cgColor
 
         NSLayoutConstraint.activate([
-            rejectMicrophoneAccessButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            rejectMicrophoneAccessButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            rejectMicrophoneAccessButton.widthAnchor.constraint(equalToConstant: 350),
             rejectMicrophoneAccessButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             rejectMicrophoneAccessButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -111),
             rejectMicrophoneAccessButton.heightAnchor.constraint(equalToConstant: 50)
@@ -59,8 +58,7 @@ class PermissionViewController: UIViewController {
         allowMicrophoneAccessButton.setTitleColor(UIColor(named: "buttonText", in: Bundle(for: type(of: self)), compatibleWith: nil), for: .normal)
 
         NSLayoutConstraint.activate([
-            allowMicrophoneAccessButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            allowMicrophoneAccessButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            allowMicrophoneAccessButton.widthAnchor.constraint(equalToConstant: 350),
             allowMicrophoneAccessButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             allowMicrophoneAccessButton.bottomAnchor.constraint(equalTo: rejectMicrophoneAccessButton.topAnchor, constant: -22),
             allowMicrophoneAccessButton.heightAnchor.constraint(equalToConstant: 50)
